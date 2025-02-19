@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaal Sales System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Updated CSS */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            width: 200px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        #navbar a {
+            display: block;
+            color: white;
+            padding: 12px;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .submenu {
+            display: none;
+            background: #34495e;
+            padding-left: 15px;
+        }
+
+        #navbar a:hover + .submenu,
+        .submenu:hover {
+            display: block;
+        }
+        header {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        /* Dashboard Cards */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 2px 1px #3498db;
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+
+        .card p {
+            font-size: 24px;
+            margin: 0;
+            color: #3498db;
+        }
+
+        /* Updated Modal Design */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 10px;
+            width: 30%;
+            border-radius: 10px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-icons a {
+            color: white;
+            margin-left: 15px;
+            font-size: 20px;
+            transition: opacity 0.3s;
+        }
+
+        .social-icons a:hover {
+            opacity: 0.8;
+        }
+
+        .button {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Vertical Navigation Bar -->
+    <div id="navbar">
+        <a href="#">Sales</a>
+        <a href="#" class="submenu-btn">New Invoice</a>
+        <div class="submenu">
+            <a href="#">Invoices</a>
+            <a href="#">Search Invoices</a>
+        </div>
+        <a href="receipts.html">Receipts</a>
+        <a href="#">Expenses</a>
+        <a href="#">Payable</a>
+        <a href="#">Pay Bill</a>
+        <a href="#">Accounts</a>
+        <a href="#">Receivable</a>
+        <a href="#">Stand Out</a>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <header>
+            <h2>Galaal Sales System</h2>
+        </header>
+        
+        <!-- Dashboard Cards -->
+        <div class="dashboard">
+            <div class="card">
+                <h3>Total Invoices</h3>
+                <p>1,234</p>
+            </div>
+            <div class="card">
+                <h3>Total Customers</h3>
+                <p>567</p>
+            </div>
+            <div class="card">
+                <h3>Total Profit</h3>
+                <p>$12,345</p>
+            </div>
+            <div class="card">
+                <h3>Total Expenses</h3>
+                <p>$8,901</p>
+            </div>
+            <div class="card">
+                <h3>Total Revenue</h3>
+                <p>$45,678</p>
+            </div>
+            <div class="card">
+                <h3>Cash in Bank</h3>
+                <p>$23,456</p>
+            </div>
+        </div>
+
+        <!-- New Invoice Button -->
+        <div id="form">
+            <button class="button" id="new-invoice-btn">New Invoice</button>
+        </div>
+
+        <!-- Modal (Popup) -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Customer Registration</h2>
+                <form id="registration-form">
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Note:</label>
+                        <input type="text" id="order" name="order" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <select id="type">
+                            <option>Miisaan</option>
+                            <option>Order</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-quantity">Order Quantity:</label>
+                        <input type="number" id="order-quantity" name="order-quantity" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="number" id="price" name="price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="total-money">Total Money:</label>
+                        <input type="number" id="total-money" name="total-money" step="0.01" required disabled readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="cash-commission">Cash Commission:</label>
+                        <input type="number" id="cash-commission" name="cash-commission" step="0.01" required disabled readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="total-cash">Total Cash:</label>
+                        <input type="number" id="total-cash" name="total-cash" step="0.01" required readonly disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="rate">Rate:</label>
+                        <input type="number" id="rate-input" name="rate" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dollar">Dollar:</label>
+                        <input type="number" id="dollar" name="dollar" step="0.01" required disabled readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="dollar-commission">Dollar Commission:</label>
+                        <input type="number" id="dollar-commission" name="dollar-commission" step="0.01" required disabled readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="total-dollar">Total Dollar:</label>
+                        <input type="number" id="total-dollar" name="total-dollar" step="0.01" required disabled readonly>
+                    </div>
+                    <button type="button" onclick="generatePDF()">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div>
+            Copyright © Galaal Company 2025 | Designed by: Abd-kadir kalif
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Existing JavaScript functionality remains unchanged
+        // Modal functionality
+        const modal = document.getElementById("myModal");
+        const btn = document.getElementById("new-invoice-btn");
+        const span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Form calculation logic
+        function calculateValues() {
+            const orderQuantity = parseFloat(document.getElementById('order-quantity').value);
+            const price = parseFloat(document.getElementById('price').value);
+            const rate = parseFloat(document.getElementById('rate-input').value);
+
+            if (isNaN(orderQuantity) || isNaN(price) || isNaN(rate)) return;
+
+            const money = orderQuantity * price;
+            document.getElementById('total-money').value = money.toFixed(2);
+
+            let totalCash = money;
+            if (money <= 100000) totalCash += 1000;
+            else if (money <= 200000) totalCash += 2000;
+            else if (money <= 300000) totalCash += 3000;
+            else if (money <= 400000) totalCash += 4000;
+            else if (money <= 500000) totalCash += 5000;
+
+            document.getElementById('total-cash').value = totalCash.toFixed(2);
+
+            const cashCommission = totalCash - money;
+            document.getElementById('cash-commission').value = cashCommission.toFixed(2);
+
+            const dollar = totalCash / rate;
+            document.getElementById('dollar').value = dollar.toFixed(2);
+
+            const dollarCommission = dollar * 0.01;
+            document.getElementById('dollar-commission').value = dollarCommission.toFixed(2);
+
+            const totalDollar = dollar + dollarCommission;
+            document.getElementById('total-dollar').value = totalDollar.toFixed(2);
+        }
+
+        document.getElementById('order-quantity').addEventListener('input', calculateValues);
+        document.getElementById('price').addEventListener('input', calculateValues);
+        document.getElementById('rate-input').addEventListener('input', calculateValues);
+
+        // PDF Generation
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const date = document.getElementById('date').value;
+            const name = document.getElementById('name').value;
+            const order = document.getElementById('order').value;
+            const type = document.getElementById('type').value;
+            const orderQuantity = document.getElementById('order-quantity').value;
+            const price = document.getElementById('price').value;
+            const totalMoney = document.getElementById('total-money').value;
+            const cashCommission = document.getElementById('cash-commission').value;
+            const totalCash = document.getElementById('total-cash').value;
+            const rate = document.getElementById('rate-input').value;
+            const dollar = document.getElementById('dollar').value;
+            const dollarCommission = document.getElementById('dollar-commission').value;
+            const totalDollar = document.getElementById('total-dollar').value;
+
+            doc.setFontSize(18);
+            doc.text('Customer Registration Details', 14, 20);
+
+            doc.setFontSize(12);
+            doc.text(`Date: ${date}`, 14, 30);
+            doc.text(`Name: ${name}`, 14, 40);
+            doc.text(`Note: ${order}`, 14, 50);
+            doc.text(`Type: ${type}`, 14, 60);
+            doc.text(`Order Quantity: ${orderQuantity}`, 14, 70);
+            doc.text(`Price: ${price}`, 14, 80);
+            doc.text(`Total Money: ${totalMoney}`, 14, 90);
+            doc.text(`Cash Commission: ${cashCommission}`, 14, 100);
+            doc.text(`Total Cash: ${totalCash}`, 14, 110);
+            doc.text(`Rate: ${rate}`, 14, 120);
+            doc.text(`Dollar: ${dollar}`, 14, 130);
+            doc.text(`Dollar Commission: ${dollarCommission}`, 14, 140);
+            doc.text(`Total Dollar: ${totalDollar}`, 14, 150);
+
+            doc.save('registration-details.pdf');
+        }
+    </script>
+
+</body>
+</html>
